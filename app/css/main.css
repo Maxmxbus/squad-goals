@@ -1,0 +1,57 @@
+body {
+  background-color: black;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Center horizontally */
+  justify-content: center;
+  /* Center vertically */
+  padding: 1.5rem;
+  min-height: 100vh;
+  /* Ensure it takes the full viewport height */
+  box-sizing: border-box;
+  /* Ensure padding doesn't affect height calculations */
+}
+
+button {
+  margin: 10px;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+}
+
+.createSquad,
+.joinSquad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Center horizontally */
+  justify-content: center;
+  /* Center vertically within their own containers */
+  width: 100%;
+  /* Full width for better responsiveness */
+  max-width: 400px;
+  /* Limit the width to keep it visually appealing */
+  margin-top: 1rem;
+}
+
+input {
+  margin-bottom: 10px;
+  /* Add spacing below inputs */
+  width: 100%;
+  /* Make input fields stretch across the container */
+}
+
+.wallet {
+  margin-bottom: 20px;
+  /* Add space between wallet button and other elements */
+}

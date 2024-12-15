@@ -10,7 +10,9 @@ export default function Home() {
 
     // Function to fetch tasks from the database and update state
     async function showTasks() {
-
+        const tasks = await get_all_user_tasks();
+        setUserTasks(tasks);
+        // console.log(tasks);
     }
 
     // Function to add a task to the database
@@ -37,7 +39,7 @@ export default function Home() {
     // Fetch tasks when the component is mounted
     useEffect(() => {
         showTasks();
-    }, []);
+    });
 
     return (
         <div className="main">
@@ -46,9 +48,9 @@ export default function Home() {
                 <h1 className='tasksHeading border-b-2'> 👇👇👇 Your Tasks 👇👇👇</h1>
                 <div className='tasksContainer'>
                     <ul>
-                        {userTasks.map((task) => (
-                            <li key={task.id}>
-                                <h2>🔴 {task.description} 🔴</h2>
+                        {userTasks.map((task, idx) => (
+                            <li key={idx}>
+                                <h2>{idx + 1}. {task.description} 🔴</h2>
                             </li>
                         ))}
                     </ul>

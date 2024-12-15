@@ -45,7 +45,10 @@ button {
   display: flex;
   gap: 32px;
 }
-.task-init {
+.task-active {
+  display: none;
+}
+.task-inactive {
 }
 .inputField {
   display: flex;

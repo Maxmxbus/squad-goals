@@ -5,7 +5,7 @@ import "./css/main.css";
 
 
 export default function Home() {
-  const [walletAddress, setWalletAddress] = useState('');
+  const [walletAddress, setWalletAddress] = useState("");
 
   //Connect Wallet function
   const connectWallet = async () => {
@@ -13,7 +13,6 @@ export default function Home() {
       alert("MetaMask is not installed. Please install it to use this feature.");
       return;
     }
-
 
     try {
       // Request account access from the user
@@ -24,28 +23,29 @@ export default function Home() {
       // Set the first account to walletAddress state
 
       setWalletAddress(accounts[0]);
-      JSON.stringify(localStorage.setItem('walletAddress', accounts[0]));
-      console.log(localStorage);
-      alert(`Wallet Connected: ${accounts[0]}`);
-      // console.log("Wallet Address:", accounts[0]);
-    } catch (err) {
+
+      //alert(`Wallet Connected: ${accounts[0]}`);
+      console.log("Wallet Address:" + accounts[0]);
+      //console.log("Wallet Address:" + walletAddress);
+    }
+    catch (err) {
       console.error("Error connecting to MetaMask:", err.message);
       alert("Failed to connect wallet. Please try again.");
     }
   };
 
   const disConnectWallet = () => {
-    localStorage.removeItem("walletAddress");
+
     setWalletAddress("");
     console.log("Wallet Disconnected");
     return;
   };
 
-  function walletConnected() {
-    if (walletAddress) { return true };
-    if (localStorage.getItem("walletAddress")) { return true };
-    return false;
-  }
+  // function walletConnected() {
+  //   if (walletAddress) { return true };
+  //   if (localStorage.getItem("walletAddress")) { return true };
+  //   return false;
+  // }
 
   const wnConnectedBtn = () => { alert('Wallet Not Connected') };
 
@@ -58,11 +58,11 @@ export default function Home() {
             onClick={walletAddress ? disConnectWallet : connectWallet}
             className={"btn btn-outline btn-secondary"}
           >
-            {walletConnected() ? "Disconnect Wallet" : "Connect Wallet"}
+            {walletAddress ? "Disconnect Wallet" : "Connect Wallet"}
           </button>
         </div>
         <div className="tasks">
-          <h1 className="headingBase">{walletConnected() ? <a href="tasks">Squad Goals</a> : <button onClick={wnConnectedBtn}>Wallet Not Connected</button>}</h1>
+          <h1 className="headingBase">{walletAddress ? <a href="tasks" className={"btn btn-outline btn-success"}>ToDo Dapp</a> : <button onClick={wnConnectedBtn} className={"btn btn-outline btn-alert"}>Wallet Not Connected</button>}</h1>
         </div>
       </div>
 

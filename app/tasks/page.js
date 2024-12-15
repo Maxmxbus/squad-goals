@@ -1,101 +1,80 @@
 'use client';
-import { useState } from 'react';
 import '../css/tasks.css';
+import { useEffect, useState } from 'react';
+import { add_task, clear_tasks, get_all_user_tasks } from '../components/kwil';
 
 export default function Home() {
-    // State to manage tasks
-    const [itemsArr, setItemsArr] = useState(() => {
-        const storedItems = localStorage.getItem('items');
-        return storedItems ? JSON.parse(storedItems) : [];
-    });
+    // State for task management
+    const [taskID, setTaskID] = useState(0);
+    const [userTasks, setUserTasks] = useState([]);
 
-    // Function to check if array is made
-    function arrayMadeOrNot() {
-        return !localStorage.getItem('items');
+    // Function to fetch tasks from the database and update state
+    async function showTasks() {
+
     }
 
-    // Function to add a task
+    // Function to add a task to the database
     function addTask() {
         const input = document.getElementById('task');
-        if (!input.value) {
-            alert('Enter task please 🙃');
+        if (input.value.trim() === '') {
+            alert('Please enter a task');
             return;
         }
-        createItem(input.value);
-        input.value = ''; // Clear input after adding task
+        add_task(taskID, input.value.trim())
+            .then(data => console.log('Task added, tx hash: ', data))
+            .catch(err => console.error('It Failed: ', err));
+        setTaskID(taskID + 1);
+        input.value = '';
     }
 
-    // Create item function
-    function createItem(item) {
-        const newItemsArr = [...itemsArr, item];
-        setItemsArr(newItemsArr);
-        localStorage.setItem('items', JSON.stringify(newItemsArr));
-    }
-
-    // Show tasks function (no longer needed with state, but kept for potential future use)
-    function showTasks() {
-        return itemsArr;
-    }
-
-    // Clear tasks function
+    // Function to clear all tasks
     function clearTasks() {
-        if (itemsArr.length === 0) {
-            alert('There are no items');
-            return;
-        }
-        setItemsArr([]);
-        localStorage.setItem('items', JSON.stringify([]));
+        clear_tasks()
+            .then(data => console.log('Tasks Cleared, tx hash: ', data))
+            .catch(err => console.error('It Failed: ', err));
     }
 
-    // Complete task function
-    function completedTask(idx) {
-        const newItemsArr = itemsArr.filter((_, index) => index !== idx);
-        setItemsArr(newItemsArr);
-        localStorage.setItem('items', JSON.stringify(newItemsArr));
-    }
+    // Fetch tasks when the component is mounted
+    useEffect(() => {
+        showTasks();
+    }, []);
 
     return (
-        <>
-            <div className="main">
-                <h1 className="flex">Your Address: {localStorage.getItem('walletAddress')}</h1>
-                <div className='tasks'>
-                    <h1 className='tasksHeading border-b-2'> 👇👇👇 Your Tasks 👇👇👇</h1>
-                    <div className='tasksContainer'>
-                        <ul>
-                            {arrayMadeOrNot() ? null : itemsArr.map((el, idx) => (
-                                <li className='task' key={idx}>
-                                    <button
-                                        className="border-b-2 task-init"
-                                        onClick={() => completedTask(idx)}
-                                    >
-                                        {el}  🔴
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-                <div className='inputField'>
-                    <input
-                        type="text"
-                        id='task'
-                        placeholder='Enter Your task here'
-                        className='input input-bordered input-secondary w-full max-w-xs'
-                    />
-                    <button
-                        className={"btn btn-outline btn-secondary"}
-                        onClick={addTask}
-                    >
-                        Add Task
-                    </button>
-                    <button
-                        className={"btn btn-outline btn-secondary"}
-                        onClick={clearTasks}
-                    >
-                        Clear Tasks
-                    </button>
+        <div className="main">
+            <h1 className="flex">Your Address: 0x86....</h1>
+            <div className='tasks'>
+                <h1 className='tasksHeading border-b-2'> 👇👇👇 Your Tasks 👇👇👇</h1>
+                <div className='tasksContainer'>
+                    <ul>
+                        {userTasks.map((task) => (
+                            <li key={task.id}>
+                                <h2>🔴 {task.description} 🔴</h2>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </div>
-        </>
+            <div className='inputField'>
+                <input
+                    type="text"
+                    id='task'
+                    placeholder='Enter Your task here'
+                    className='input input-bordered input-secondary w-full max-w-xs'
+                />
+                <button
+                    className={"btn btn-outline btn-secondary"}
+                    onClick={addTask}
+                >
+                    Add Task
+                </button>
+                <button
+                    className={"btn btn-outline btn-secondary"}
+                    onClick={clearTasks}
+                >
+                    Clear Tasks
+                </button>
+            </div>
+            <button onClick={showTasks}>Refresh Tasks</button>
+        </div>
     );
 }

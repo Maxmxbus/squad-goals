@@ -15,3 +15,10 @@
 -> On the tasks page, you can store tasks
 -> Tasks to localstorage then printed on the DOM
 ->Tasks can be cleared the cleared if all done
+
+## How to use:
+
+-> Connect your wallet
+-> Get sepolia testnet ether on your wallet from 👉 https://cloud.google.com/application/web3/faucet/ethereum/sepolia or any other faucet you know
+-> Then go to https://faucet.kwil.com/ and get some testnet ether for the database to work and connect wallet at least once
+-> Then go to https://squad-goals.vercel.app/ and you are good to go

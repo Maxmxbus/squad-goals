@@ -81,7 +81,6 @@ export default function Home() {
                         Clear Tasks
                     </button>
                 </div>
-                <button onClick={showTasks}>Refresh Tasks</button>
             </div>
         </>);
 }

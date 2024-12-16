@@ -22,7 +22,6 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <title>dToDo</title>
-        <link rel="icon" href="/images/sg.png" />
       </head>
 
       <body

@@ -1,10 +1,17 @@
 'use client';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./css/main.css";
-
+import Navigation from "./components/Navigation.js";
+const { create_new_user } = "components/kwil.js"
 
 
 export default function Home() {
+
+  useEffect(() => {
+    localStorage.setItem("walletAddress", "");
+  }, []);
+
+
   const [walletAddress, setWalletAddress] = useState("");
 
   //Connect Wallet function
@@ -23,10 +30,14 @@ export default function Home() {
       // Set the first account to walletAddress state
 
       setWalletAddress(accounts[0]);
+      localStorage.setItem("walletAddress", accounts[0]);
 
       //alert(`Wallet Connected: ${accounts[0]}`);
       console.log("Wallet Address:" + accounts[0]);
       //console.log("Wallet Address:" + walletAddress);
+
+
+
     }
     catch (err) {
       console.error("Error connecting to MetaMask:", err.message);
@@ -34,9 +45,15 @@ export default function Home() {
     }
   };
 
+  /**
+   * Disconnects the wallet by clearing the wallet address state.
+   * Logs a message indicating the wallet has been disconnected.
+   */
+
   const disConnectWallet = () => {
 
     setWalletAddress("");
+    localStorage.setItem("walletAddress", "");
     console.log("Wallet Disconnected");
     return;
   };
@@ -47,18 +64,21 @@ export default function Home() {
   //   return false;
   // }
 
-  const wnConnectedBtn = () => { alert('Wallet Not Connected') };
+  const wnConnectedBtn = () => {
+    alert('Wallet Not Connected')
+  };
 
   return (
     <>
+      <Navigation address={localStorage.getItem("walletAddress") ? localStorage.getItem("walletAddress") : ""} />
       <div className="main">
         <img className="logo" src="/images/sg.png" alt="logo" />
         <div className="wallet">
           <button
-            onClick={walletAddress ? disConnectWallet : connectWallet}
+            onClick={localStorage.getItem("walletAddress") ? disConnectWallet : connectWallet}
             className={"btn btn-outline btn-secondary"}
           >
-            {walletAddress ? "Disconnect Wallet" : "Connect Wallet"}
+            {localStorage.getItem("walletAddress") ? "Disconnect Wallet" : "Connect Wallet"}
           </button>
         </div>
         <div className="tasks">

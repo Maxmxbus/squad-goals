@@ -11,6 +11,7 @@ export default function Home() {
     // State for task management
     const [taskID, setTaskID] = useState(0);
     const [userTasks, setUserTasks] = useState([]);
+    const [walletAddress, setWalletAddress] = useState("");
 
     // Function to fetch tasks from the database and update state
     async function showTasks() {
@@ -43,11 +44,12 @@ export default function Home() {
     // Fetch tasks when the component is mounted
     useEffect(() => {
         showTasks();
+        setWalletAddress(window.ethereum.selectedAddress);
     });
 
     return (
         <>
-            <Navigation address={localStorage.getItem("walletAddress") ? localStorage.getItem("walletAddress") : "Connect Wallet"} />
+            <Navigation address={walletAddress} />
             <div className="main">
                 <div className='tasks'>
                     <h1 className='tasksHeading border-b-2'> 👇👇👇 Your Tasks 👇👇👇</h1>

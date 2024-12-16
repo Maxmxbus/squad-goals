@@ -7,11 +7,6 @@ const { create_new_user } = "components/kwil.js"
 
 export default function Home() {
 
-  useEffect(() => {
-    localStorage.setItem("walletAddress", "");
-  }, []);
-
-
   const [walletAddress, setWalletAddress] = useState("");
 
   //Connect Wallet function
@@ -30,7 +25,6 @@ export default function Home() {
       // Set the first account to walletAddress state
 
       setWalletAddress(accounts[0]);
-      localStorage.setItem("walletAddress", accounts[0]);
 
       //alert(`Wallet Connected: ${accounts[0]}`);
       console.log("Wallet Address:" + accounts[0]);
@@ -53,16 +47,9 @@ export default function Home() {
   const disConnectWallet = () => {
 
     setWalletAddress("");
-    localStorage.setItem("walletAddress", "");
     console.log("Wallet Disconnected");
     return;
   };
-
-  // function walletConnected() {
-  //   if (walletAddress) { return true };
-  //   if (localStorage.getItem("walletAddress")) { return true };
-  //   return false;
-  // }
 
   const wnConnectedBtn = () => {
     alert('Wallet Not Connected')
@@ -70,15 +57,15 @@ export default function Home() {
 
   return (
     <>
-      <Navigation address={localStorage.getItem("walletAddress") ? localStorage.getItem("walletAddress") : ""} />
+      <Navigation address={walletAddress ? walletAddress : ""} />
       <div className="main">
         <img className="logo" src="/images/sg.png" alt="logo" />
         <div className="wallet">
           <button
-            onClick={localStorage.getItem("walletAddress") ? disConnectWallet : connectWallet}
+            onClick={walletAddress ? disConnectWallet : connectWallet}
             className={"btn btn-outline btn-secondary"}
           >
-            {localStorage.getItem("walletAddress") ? "Disconnect Wallet" : "Connect Wallet"}
+            {walletAddress ? "Disconnect Wallet" : "Connect Wallet"}
           </button>
         </div>
         <div className="tasks">
